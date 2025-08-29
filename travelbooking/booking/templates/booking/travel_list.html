@@ -8,10 +8,15 @@
 </head>
 <body class="pt-5">
     {% include 'booking/navbar.html' %}
+    {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
     <div class="container mt-5">
         <h2 class="mb-4">Available Travels</h2>
 
-        <!-- Filter Form -->
         <form method="get" class="row g-3 mb-4">
             <div class="col-md-3">
                 <label for="type" class="form-label">Type</label>
@@ -24,15 +29,15 @@
             </div>
             <div class="col-md-3">
                 <label for="source" class="form-label">Source</label>
-                <input type="text" class="form-control" id="source" name="source" value="{{ request.GET.source }}">
+                <input type="text" class="form-control border-dark" id="source" name="source" value="{{ request.GET.source }}">
             </div>
             <div class="col-md-3">
                 <label for="destination" class="form-label">Destination</label>
-                <input type="text" class="form-control" id="destination" name="destination" value="{{ request.GET.destination }}">
+                <input type="text" class="form-control border-dark" id="destination" name="destination" value="{{ request.GET.destination }}">
             </div>
             <div class="col-md-3">
                 <label for="date" class="form-label">Date</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ request.GET.date }}">
+                <input type="date" class="form-control border-dark" id="date" name="date" value="{{ request.GET.date }}">
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Filter</button>
@@ -40,7 +45,6 @@
             </div>
         </form>
 
-        <!-- Travel Table -->
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="table-light">
@@ -64,7 +68,7 @@
                                 <td>{{ travel.source }}</td>
                                 <td>{{ travel.destination }}</td>
                                 <td>{{ travel.date_time|date:"Y-m-d H:i" }}</td>
-                                <td>${{ travel.price }}</td>
+                                <td>Rs.{{ travel.price }}</td>
                                 <td>{{ travel.available_seats }}</td>
                                 <td>
                                     <a href="{% url 'book_travel' travel.id %}" class="btn btn-sm btn-success">Book</a>

@@ -5,6 +5,12 @@
 <body id="body" class="d-flex flex-column min-vh-100">
 
     {% include 'booking/navbar.html' %}
+    {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    {% endfor %}
 
     <div class="container d-flex flex-column justify-content-center align-items-center flex-grow-1 text-center">
         <h1 class="fw-bold text-success fs-2 mb-3">Ready to go, {{ user.username }}?</h1>

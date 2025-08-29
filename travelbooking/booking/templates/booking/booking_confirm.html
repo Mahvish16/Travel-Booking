@@ -8,6 +8,12 @@
 </head>
 <body class="pt-5">
     {% include 'booking/navbar.html' %}
+    {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    {% endfor %}
 
     <div class="container mt-5">
         <div class="alert alert-success">
@@ -23,7 +29,7 @@
                 <p><strong>To:</strong> {{ booking.travel_option.destination }}</p>
                 <p><strong>Date & Time:</strong> {{ booking.travel_option.date_time }}</p>
                 <p><strong>Number of Seats:</strong> {{ booking.number_of_seats }}</p>
-                <p><strong>Total Price:</strong> ${{ booking.total_price }}</p>
+                <p><strong>Total Price:</strong> Rs.{{ booking.total_price }}</p>
                 <p><strong>Booking Date:</strong> {{ booking.booking_date }}</p>
                 <p><strong>Status:</strong> {{ booking.status }}</p>
             </div>

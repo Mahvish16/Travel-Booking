@@ -8,6 +8,12 @@
 </head>
 <body class="pt-5">
     {% include 'booking/navbar.html' %}
+    {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    {% endfor %}
 
     <div class="container mt-5">
         <h2 class="mb-4">Book Travel</h2>
@@ -21,7 +27,7 @@
                 <p><strong>From:</strong> {{ travel.source }}</p>
                 <p><strong>To:</strong> {{ travel.destination }}</p>
                 <p><strong>Date & Time:</strong> {{ travel.date_time }}</p>
-                <p><strong>Price per Seat:</strong> ${{ travel.price }}</p>
+                <p><strong>Price per Seat:</strong> Rs.{{ travel.price }}</p>
                 <p><strong>Available Seats:</strong> {{ travel.available_seats }}</p>
             </div>
         </div>
@@ -30,7 +36,7 @@
             {% csrf_token %}
             <div class="mb-3">
                 <label for="number_of_seats" class="form-label">Number of Seats</label>
-                <input type="number" name="number_of_seats" id="number_of_seats" class="form-control" min="1" max="{{ travel.avaliable_seats }}" required>
+                <input type="number" name="number_of_seats" id="number_of_seats" class="form-control border-dark" min="1" max="{{ travel.avaliable_seats }}" required>
             </div>
 
             <button type="submit" class="btn btn-success">Confirm Booking</button>
