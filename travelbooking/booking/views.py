@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
+from .models import Travel, Booking
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 def register(request):
@@ -44,3 +46,34 @@ def logout_view(request):
 def home(request):
     user = request.user.username
     return render(request, 'booking/home.html', {'username':user} )
+
+@login_required
+def travel_list(request):
+    travels = Travel.objects.all()
+    travel_type = request.GET.get('type')
+    source = request.GET.get('source')
+    destination = request.GET.get('destination')
+    date = request.GET.get('date')
+
+    if travel_type:
+        travels = travels.filter(travel_type=travel_type)
+    if source:
+        travels = travels.filter(source__icontains=source)
+    if destination:
+        travels = travels.filter(destination__icontains=destination)
+    if date:
+        travels = travels.filter(date=date)
+
+    return render(request, 'booking/travel_list.html', {'travels': travels})
+
+
+    
+
+
+
+
+
+
+
+
+    
