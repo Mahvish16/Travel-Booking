@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required
 
@@ -35,7 +35,12 @@ def login(request):
     return render(request, 'booking/login.html')
 
 @login_required
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect("login")
 
+@login_required
 def home(request):
     user = request.user.username
     return render(request, 'booking/home.html', {'username':user} )
