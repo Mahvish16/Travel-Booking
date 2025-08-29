@@ -7,5 +7,10 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path("logout/", views.logout_view, name="logout"),
-    path('travels/',views.travel_list, name = 'travel_list')
+    path('profile/', views.update_profile, name='profile'),
+    path('travels/',views.travel_list, name = 'travel_list'),
+    path('travel/<int:id>/', views.travel_detail, name='travel_detail'),
+    path('book/<int:travel_id>/', views.book_travel, name='book_travel'),
+    path('my_bookings/', views.my_bookings, name='my_bookings'),
+    path('cancel_booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 ]

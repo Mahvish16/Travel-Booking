@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="pt-5">
+    {% include 'booking/navbar.html' %}
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Book Travel</h2>
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Travel Details
+            </div>
+            <div class="card-body">
+                <p><strong>Type:</strong> {{ travel.type }}</p>
+                <p><strong>From:</strong> {{ travel.source }}</p>
+                <p><strong>To:</strong> {{ travel.destination }}</p>
+                <p><strong>Date & Time:</strong> {{ travel.date_time }}</p>
+                <p><strong>Price per Seat:</strong> ${{ travel.price }}</p>
+                <p><strong>Available Seats:</strong> {{ travel.available_seats }}</p>
+            </div>
+        </div>
+
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="number_of_seats" class="form-label">Number of Seats</label>
+                <input type="number" name="number_of_seats" id="number_of_seats" class="form-control" min="1" max="{{ travel.avaliable_seats }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-success">Confirm Booking</button>
+            <a href="{% url 'travel_list' %}" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

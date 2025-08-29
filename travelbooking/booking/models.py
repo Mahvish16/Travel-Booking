@@ -18,7 +18,8 @@ class Travel (models.Model):
     destination = models.CharField(max_length=100)
     date_time = models.DateTimeField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    avaliable_seats = models.IntegerField()
+    available_seats = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.type

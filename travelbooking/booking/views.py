@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-
+from django.utils import timezone
 
 def register(request):
     if request.method == 'POST':
@@ -43,6 +43,23 @@ def logout_view(request):
     return redirect("login")
 
 @login_required
+def update_profile(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        
+        messages.success(request, 'Profile updated.')
+        return redirect('profile')
+
+    return render(request, 'booking/profile.html')
+
+
+@login_required
 def home(request):
     user = request.user.username
     return render(request, 'booking/home.html', {'username':user} )
@@ -56,19 +73,77 @@ def travel_list(request):
     date = request.GET.get('date')
 
     if travel_type:
-        travels = travels.filter(travel_type=travel_type)
+        travels = travels.filter(type=travel_type)
     if source:
         travels = travels.filter(source__icontains=source)
     if destination:
         travels = travels.filter(destination__icontains=destination)
     if date:
-        travels = travels.filter(date=date)
+        travels = travels.filter(date_time__date=date) 
 
     return render(request, 'booking/travel_list.html', {'travels': travels})
 
+@login_required
+def travel_detail(request, id):
+    travel = get_object_or_404(Travel, id=id)
+    return render(request, 'booking/travel_detail.html', {'travel': travel})
 
+
+@login_required
+def book_travel(request, travel_id):
+    travel = get_object_or_404(Travel, id=travel_id)
+
+    if request.method == 'POST':
+        try:
+            number_of_seats = int(request.POST.get('number_of_seats', 1))
+
+            if number_of_seats <= 0:
+                messages.error(request, 'Number of seats must be at least 1.')
+                return render(request, 'booking/booking_form.html', {'travel': travel})
+
+            if number_of_seats > travel.available_seats:
+                messages.error(request, 'Not enough available seats.')
+                return render(request, 'booking/booking_form.html', {'travel': travel})
+
+            total_price = travel.price * number_of_seats
+
+            booking = Booking.objects.create(
+                user=request.user,
+                travel_option=travel,
+                number_of_seats=number_of_seats,
+                total_price=total_price,
+                booking_date=timezone.now().date(),
+                status='Confirmed'
+            )
+
+            travel.available_seats -= number_of_seats
+            travel.save()
+
+            return render(request, 'booking/booking_confirm.html', {'booking': booking})
+
+
+        except ValueError:
+            messages.error(request, 'Invalid number of seats.')
+
+    return render(request, 'booking/booking_form.html', {'travel': travel})
+
+@login_required
+def my_bookings(request):
+    bookings = Booking.objects.filter(user=request.user).order_by('-booking_date')
+    return render(request, 'booking/my_bookings.html', {'bookings': bookings})
     
+@login_required
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
+    if booking.status == 'Confirmed':
+        booking.status = 'Cancelled'  
+        booking.save()
+        messages.success(request, 'Booking cancelled successfully.')
+    else:
+        messages.error(request, 'Booking cannot be cancelled.')
+
+    return redirect('my_bookings')
 
 
 
