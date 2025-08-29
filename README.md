@@ -93,14 +93,41 @@ Deployment-ready on AWS / PythonAnywhere / any cloud platform.
 
 ### Project Structure
 
-travelbooking/
-│── travelbooking/        # Django project settings
-│── travel/               # App for managing travel options
-│── booking/              # App for booking management
-│── users/                # App for authentication & profiles
-│── templates/            # HTML templates
-│── static/               # CSS, JS, Bootstrap files
-│── manage.py             # Django management script
+travelbooking/                      
+├─ manage.py
+├─ requirements.txt
+├─ .env.example                     
+├─ README.md
+├─ travelbooking/                   
+│  ├─ __init__.py
+│  ├─ settings.py                  
+│  ├─ urls.py
+│  ├─ wsgi.py
+│  └─ asgi.py
+├─ booking/                         
+│  ├─ __init__.py
+│  ├─ admin.py
+│  ├─ apps.py
+│  ├─ models.py
+│  ├─ views.py
+│  ├─ urls.py
+│  ├─ tests.py
+│  └─ migrations/
+├─ templates/
+│  └─ booking/
+│     ├─ home.html
+│     ├─ login.html
+│     ├─ register.html
+│     ├─ profile.html
+│     ├─ travel_list.html
+│     ├─ travel_detail.html
+│     ├─ booking_create.html
+│     ├─ my_bookings.html
+│     └─ cancel_confirm.html
+├─ static/
+│  └─ css/ styles.css
+└─ media/                       
+           
 
 ### Deployment
 Can be deployed on AWS EC2, PythonAnywhere, or any cloud provider.
