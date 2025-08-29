@@ -93,40 +93,30 @@ Deployment-ready on AWS / PythonAnywhere / any cloud platform.
 
 ### Project Structure
 
-travelbooking/                      
+travelbooking/
 ├─ manage.py
 ├─ requirements.txt
-├─ .env.example                     
 ├─ README.md
-├─ travelbooking/                   
-│  ├─ __init__.py
-│  ├─ settings.py                  
-│  ├─ urls.py
-│  ├─ wsgi.py
-│  └─ asgi.py
-├─ booking/                         
-│  ├─ __init__.py
-│  ├─ admin.py
-│  ├─ apps.py
-│  ├─ models.py
-│  ├─ views.py
-│  ├─ urls.py
-│  ├─ tests.py
-│  └─ migrations/
-├─ templates/
-│  └─ booking/
-│     ├─ home.html
-│     ├─ login.html
-│     ├─ register.html
-│     ├─ profile.html
-│     ├─ travel_list.html
-│     ├─ travel_detail.html
-│     ├─ booking_create.html
-│     ├─ my_bookings.html
-│     └─ cancel_confirm.html
-├─ static/
-│  └─ css/ styles.css
-└─ media/                       
+├─ travelbooking/             # project settings/urls
+│  ├─ settings.py
+│  └─ urls.py
+└─ booking/                   # app: models, views, urls, templates
+   ├─ models.py
+   ├─ views.py
+   ├─ urls.py
+   ├─ templates/booking/
+   │  ├─ base.html
+   │  ├─ home.html
+   │  ├─ login.html
+   │  ├─ register.html
+   │  ├─ profile.html
+   │  ├─ travel_list.html
+   │  ├─ travel_detail.html
+   │  ├─ booking_create.html
+   │  ├─ my_bookings.html
+   │  └─ cancel_confirm.html
+   └─ static/css/styles.css
+                   
            
 
 ### Deployment
