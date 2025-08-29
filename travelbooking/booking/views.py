@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
@@ -36,13 +35,13 @@ def login(request):
             return render(request, 'booking/login.html')
     return render(request, 'booking/login.html')
 
-@login_required
+@login_required(login_url='/login')
 def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out.")
     return redirect("login")
 
-@login_required
+@login_required(login_url='/login')
 def update_profile(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -59,12 +58,12 @@ def update_profile(request):
     return render(request, 'booking/profile.html')
 
 
-@login_required
+@login_required(login_url='/login')
 def home(request):
     user = request.user.username
     return render(request, 'booking/home.html', {'username':user} )
 
-@login_required
+@login_required(login_url='/login')
 def travel_list(request):
     travels = Travel.objects.all()
     travel_type = request.GET.get('type')
@@ -83,13 +82,13 @@ def travel_list(request):
 
     return render(request, 'booking/travel_list.html', {'travels': travels})
 
-@login_required
+@login_required(login_url='/login')
 def travel_detail(request, id):
     travel = get_object_or_404(Travel, id=id)
     return render(request, 'booking/travel_detail.html', {'travel': travel})
 
 
-@login_required
+@login_required(login_url='/login')
 def book_travel(request, travel_id):
     travel = get_object_or_404(Travel, id=travel_id)
 
@@ -127,12 +126,12 @@ def book_travel(request, travel_id):
 
     return render(request, 'booking/booking_form.html', {'travel': travel})
 
-@login_required
+@login_required(login_url='/login')
 def my_bookings(request):
     bookings = Booking.objects.filter(user=request.user).order_by('-booking_date')
     return render(request, 'booking/my_bookings.html', {'bookings': bookings})
     
-@login_required
+@login_required(login_url='/login')
 def cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
