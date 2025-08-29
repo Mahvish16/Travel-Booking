@@ -97,10 +97,10 @@ travelbooking/
 ├─ manage.py
 ├─ requirements.txt
 ├─ README.md
-├─ travelbooking/             # project settings/urls
+├─ travelbooking/           
 │  ├─ settings.py
 │  └─ urls.py
-└─ booking/                   # app: models, views, urls, templates
+└─ booking/                  
    ├─ models.py
    ├─ views.py
    ├─ urls.py
